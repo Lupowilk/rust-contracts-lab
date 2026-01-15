@@ -1,4 +1,4 @@
-use near_sdk::{near, AccountId};
+use near_sdk::{near, AccountId, env};
 use std::collections::HashMap;
 
 #[near(contract_state)]
@@ -10,5 +10,19 @@ struct TokenContract {
 
 #[near]
 impl TokenContract {
+
+    #[init]
+    pub fn initTokenSupply(token_supply: u128) -> Self {
+        let contract_owner = env::signer_account_id();
+        let mut balances = HashMap::new();
+        balances.insert(contract_owner, token_supply);
+
+        Self {
+            balances: balances,
+            token_supply: token_supply
+        }
+    }
+
+
 
 }
