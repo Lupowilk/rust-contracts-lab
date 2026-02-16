@@ -23,6 +23,11 @@ impl TokenContract {
         }
     }
 
+    pub fn balance_of(&self, account: AccountId) -> u128 {
+
+
+    }
+
 
 
 }
