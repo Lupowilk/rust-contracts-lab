@@ -24,8 +24,11 @@ impl TokenContract {
     }
 
     pub fn balance_of(&self, account: AccountId) -> u128 {
-
-
+        let realBalance = self.balances.get(&account);
+        match realBalance {
+            Some(value) => *value,
+            None => 0
+        }
     }
 
 
