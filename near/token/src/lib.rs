@@ -31,6 +31,12 @@ impl TokenContract {
         }
     }
 
+    pub fn total_supply(&self) -> u128 {
+        self.token_supply
+    }
 
+    pub fn transfer(&mut self, receiver: AccountId, amount: u128 ) {
+
+    }
 
 }
