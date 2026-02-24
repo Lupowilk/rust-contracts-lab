@@ -41,6 +41,12 @@ impl TokenContract {
         let net_sent = sender_balance - amount;
         assert!(sender_balance >=amount, "Not enough balance");
         self.balances.insert(sender, net_sent);
+
+        let receiver_balance = self.balances.get(&receiver);
+        let receiver_current_balance = receiver_balance +
+
+        }
+
         }
 
     }
