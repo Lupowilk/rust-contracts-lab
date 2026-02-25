@@ -38,16 +38,18 @@ impl TokenContract {
     pub fn transfer(&mut self, receiver: AccountId, amount: u128 ) {
         let sender = env::signer_account_id();
         let sender_balance = self.balance_of(&sender);
-        let net_sent = sender_balance - amount;
+        let net_balance = sender_balance - amount;
         assert!(sender_balance >=amount, "Not enough balance");
-        self.balances.insert(sender, net_sent);
+        self.balances.insert(sender, net_balance);
 
         let receiver_balance = self.balances.get(&receiver);
-        let receiver_current_balance = receiver_balance +
+        let receiver_current_balance = match receiver_balance {
+            Some(value) => *value,
+            None => 0
+        };
 
-        }
-
-        }
+        let receiver_final_balance = receiver_current_balance + amount;
+        self.balances.insert(receiver, receiver_final_balance);
 
     }
 
