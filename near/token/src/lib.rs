@@ -54,3 +54,15 @@ impl TokenContract {
     }
 
 }
+
+
+#[cfg(test)]
+mod test {
+    use super::*; // import all contracts
+
+    #[test]
+    fn test_initial_supply() {
+        let token_contract = TokenContract::initTokenSupply(1917);
+        assert_eq!(token_contract.total_supply(), 1917);
+
+}
