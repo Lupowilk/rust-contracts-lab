@@ -10,21 +10,19 @@ struct TokenContract {
 
 #[near]
 impl TokenContract {
-
     #[init]
     pub fn initTokenSupply(token_supply: u128) -> Self {
         let contract_owner = env::signer_account_id();
         let mut balances = HashMap::new();
         balances.insert(contract_owner, token_supply);
-
         Self {
             balances: balances,
             token_supply: token_supply
         }
     }
 
-    pub fn balance_of(&self, account: AccountId) -> u128 {
-        let realBalance = self.balances.get(&account);
+    pub fn balance_of(&self, account: &AccountId) -> u128 {
+        let realBalance = self.balances.get(account);
         match realBalance {
             Some(value) => *value,
             None => 0
@@ -35,34 +33,34 @@ impl TokenContract {
         self.token_supply
     }
 
-    pub fn transfer(&mut self, receiver: AccountId, amount: u128 ) {
+    pub fn transfer(&mut self, receiver: AccountId, amount: u128) {
         let sender = env::signer_account_id();
         let sender_balance = self.balance_of(&sender);
         let net_balance = sender_balance - amount;
-        assert!(sender_balance >=amount, "Not enough balance");
+        assert!(sender_balance >= amount, "Not enough balance");
         self.balances.insert(sender, net_balance);
-
         let receiver_balance = self.balances.get(&receiver);
         let receiver_current_balance = match receiver_balance {
             Some(value) => *value,
             None => 0
         };
-
         let receiver_final_balance = receiver_current_balance + amount;
         self.balances.insert(receiver, receiver_final_balance);
-
     }
-
 }
-
 
 #[cfg(test)]
 mod test {
-    use super::*; // import all contracts
+    use super::*;
+    use near_sdk::test_utils::VMContextBuilder;
+    use near_sdk::testing_env;
 
     #[test]
     fn test_initial_supply() {
+        let mut blockchain = VMContextBuilder::new();
+        blockchain.signer_account_id("bobo.near".parse().unwrap());
+        testing_env!(blockchain.build());
         let token_contract = TokenContract::initTokenSupply(1917);
         assert_eq!(token_contract.total_supply(), 1917);
-
+    }
 }
