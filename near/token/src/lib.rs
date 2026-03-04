@@ -11,7 +11,7 @@ struct TokenContract {
 #[near]
 impl TokenContract {
     #[init]
-    pub fn initTokenSupply(token_supply: u128) -> Self {
+    pub fn init_token_supply(token_supply: u128) -> Self {
         let contract_owner = env::signer_account_id();
         let mut balances = HashMap::new();
         balances.insert(contract_owner, token_supply);
@@ -22,8 +22,8 @@ impl TokenContract {
     }
 
     pub fn balance_of(&self, account: &AccountId) -> u128 {
-        let realBalance = self.balances.get(account);
-        match realBalance {
+        let real_balance = self.balances.get(account);
+        match real_balance {
             Some(value) => *value,
             None => 0
         }
@@ -60,7 +60,21 @@ mod test {
         let mut blockchain = VMContextBuilder::new();
         blockchain.signer_account_id("bobo.near".parse().unwrap());
         testing_env!(blockchain.build());
-        let token_contract = TokenContract::initTokenSupply(1917);
+        let token_contract = TokenContract::init_token_supply(1917);
         assert_eq!(token_contract.total_supply(), 1917);
     }
+
+    #[test]
+    fn test_sender_balance_decreased() {
+        let mut blockchain = VMContextBuilder::new();
+        blockchain.signer_account_id("bobo.near".parse().unwrap());
+        testing_env!(blockchain.build());
+        let mut token_contract = TokenContract::init_token_supply(1917);
+        assert_eq!(token_contract.balance_of(&"bobo.near".parse().unwrap()), 1917);
+        token_contract.transfer("alice.near".parse().unwrap(), 500);
+        assert_eq!(token_contract.balance_of(&"bobo.near".parse().unwrap()), 1917-500);
+        assert_eq!(token_contract.balance_of(&"alice.near".parse().unwrap()), 500);
+        assert_eq!(token_contract.total_supply(), 1917);
+    }
+
 }
