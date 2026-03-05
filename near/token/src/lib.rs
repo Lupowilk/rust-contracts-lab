@@ -77,4 +77,16 @@ mod test {
         assert_eq!(token_contract.total_supply(), 1917);
     }
 
+    #[test]
+    #[should_panic]
+    fn test_not_enough_balance() {
+        let mut blockchain = VMContextBuilder::new();
+        blockchain.signer_account_id("bubus.near".parse().unwrap());
+        testing_env!(blockchain.build());
+        let mut token_contract = TokenContract::init_token_supply(1234);
+        assert_eq!(token_contract.balance_of(&"bubus.near".parse().unwrap()), 1234);
+        token_contract.transfer("chrupcia.near".parse().unwrap(), 2300);
+
+    }
+
 }
