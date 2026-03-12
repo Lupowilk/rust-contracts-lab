@@ -56,6 +56,6 @@ cargo near deploy build-non-reproducible-wasm
 - IDE: Zed
 - Chains: Arbitrum Stylus, Solana, NEAR
 
-## Getting Started
+## Arbitrum
 
-_Will be populated as we progress._
+"Counter contract written and tested locally.
