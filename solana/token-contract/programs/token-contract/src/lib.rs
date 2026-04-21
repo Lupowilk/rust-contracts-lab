@@ -16,3 +16,23 @@ pub mod token_contract {
         Ok(())
     }
 }
+
+#[derive(Accounts)]
+pub struct CreateMint<'info> {
+
+    #[account(
+        init,
+        payer = payer,
+        mint::decimals = decimals,
+        mint::authority = payer,
+    )]
+    pub mint: Account<'info, Mint>, // a reference to an on-chain account whose data is a Mint.
+
+    #[account(mut)]
+    pub payer: Signer<'info>,
+
+    pub token_program: Program<'info, Token>,
+    pub system_program: Program<'info,System>,
+    pub rent: Sysvar<'info, Rent>
+
+}
