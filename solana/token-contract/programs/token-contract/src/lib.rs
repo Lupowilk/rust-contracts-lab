@@ -9,7 +9,17 @@ pub mod token_contract {
     use super::*;
 
     pub fn create_mint(ctx:Context<CreateMint>, decimals: u8) -> Result<()> {
-        Ok(())
+
+        // CPI context
+        let cpi_ctx = CpiContext::new(
+            ctx.accounts.token_program.to_account_info(),
+            InitializeMint {
+                mint: ctx.accounts.mint.to_account_info(),
+                rent: ctx.accounts.rent.to_account_info(),
+            },
+        );
+        token::initialize_mint(cpi_ctx, decimals, &ctx.accounts.payer.key(), None)?;
+         Ok(())
     }
 
     pub fn mint_tokens(ctx: Context<MintTokens>, amount: u64) -> Result<()> {
