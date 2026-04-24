@@ -1,26 +1,11 @@
-# Rust Contracts Lab
-
-Learning Rust smart contracts across Arbitrum, Solana, and NEAR.
-
-## Structure
-
-```
-arbitrum/    # EVM-compatible contracts (Stylus)
-solana/      # Solana programs
-near/        # NEAR Protocol contracts
-docs/        # Learning notes and references
-```
-
 ## Progress
-
 Track learning via [GitHub Projects](https://github.com/Lupowilk/rust-contracts-lab/projects)
 
+---
+
 ## NEAR
-
 ### Token Contract (`near/token`)
-
 A basic fungible token contract implementing:
-
 - `init_token_supply` — initializes the contract and assigns total supply to the deployer
 - `balance_of` — returns the balance of a given account
 - `total_supply` — returns the total token supply
@@ -34,28 +19,55 @@ Deployed on testnet at `chrupciatoken.testnet`
 - Ownership, borrowing, and dereferencing
 - Unit testing with `VMContextBuilder` and mock blockchain context
 
-**Run tests:**
-```bash
-cd near/token
-cargo test
-```
+---
 
-**Build:**
-```bash
-cargo near build non-reproducible-wasm
-```
+## Arbitrum Stylus
+### Counter Contract (`arbitrum/hello-world`)
+A basic counter contract written using `cargo-stylus`. Written and tested locally. Deployment skipped due to broken Sepolia faucets.
+
+**Key Rust concepts covered:**
+- `sol_storage!` macro for on-chain storage
+- `#[public]` entrypoint
+- `no_std` / `no_main` WASM environment
+
+---
+
+## Solana
+### Hello World (`solana/hello-world`)
+Minimal Anchor program that logs a message on-chain.
+
+Program ID: `6wmDpCS3xyi6cxP22W4jjcSaNHBBJ5NAtECRYy8yaQGU`
+Deployed on devnet.
+
+### Token Contract (`solana/token-contract`)
+Anchor program implementing SPL token minting.
+- `create_mint` — creates a new SPL Mint account
+- `mint_tokens` — mints tokens into a Token account
+
+Program ID: `7XF9upHxdV5iVWehmVaAsPzzDwyrozdtgpEFFHbBtDTj`
+Deployed on devnet. Tokens minted and verified on-chain.
+
+**Key concepts covered:**
+- Solana accounts model vs Ethereum and Cardano
+- Programs vs contracts
+- CPI (Cross Program Invocation)
+- Anchor macros — `#[program]`, `#[derive(Accounts)]`, `#[account]`
+- SPL Token Program
+- Rust lifetimes and generics in practice
 
 **Deploy:**
 ```bash
-cargo near deploy build-non-reproducible-wasm
+anchor build && anchor deploy
 ```
 
+**Run client:**
+```bash
+cd app && node client.js
+```
+
+---
+
 ## Environment
-
-- Rust: 1.86.0 (required for NEAR contract compilation)
+- Rust: stable
 - IDE: Zed
-- Chains: Arbitrum Stylus, Solana, NEAR
-
-## Arbitrum
-
-"Counter contract written and tested locally.
+- Chains: NEAR, Arbitrum Stylus, Solana
