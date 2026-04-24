@@ -1,5 +1,5 @@
 use anchor_lang::prelude::*;
-use anchor_spl::token::{self, Token, Mint, InitializeMint, MintTo, TokenAccount};
+use anchor_spl::token::{self, Token, Mint, MintTo, TokenAccount};
 
 declare_id!("7XF9upHxdV5iVWehmVaAsPzzDwyrozdtgpEFFHbBtDTj");
 
@@ -9,16 +9,6 @@ pub mod token_contract {
     use super::*;
 
     pub fn create_mint(ctx:Context<CreateMint>, decimals: u8) -> Result<()> {
-
-        // CPI context
-        let cpi_ctx = CpiContext::new(
-            ctx.accounts.token_program.to_account_info(),
-            InitializeMint {
-                mint: ctx.accounts.mint.to_account_info(),
-                rent: ctx.accounts.rent.to_account_info(),
-            },
-        );
-        token::initialize_mint(cpi_ctx, decimals, &ctx.accounts.payer.key(), None)?;
          Ok(())
     }
 
