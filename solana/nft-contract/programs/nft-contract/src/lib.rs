@@ -25,6 +25,15 @@ pub mod nft_contract {
 }
 
 #[derive(Accounts)]
-pub struct mintNft<'info> {
-    mint:
+pub struct MintNft<'info> {
+
+    #[account(
+        init,
+        payer = payer,
+        mint::decimals = 0,
+        mint::authority = payer,
+        mint::freeze_authority = payer,
+    )]
+    pub mint: Account<'info, Mint>,
+
 }
