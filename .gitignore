@@ -1,7 +1,13 @@
-.anchor
-.DS_Store
-target
+# Rust
+target/
+Cargo.lock
 **/*.rs.bk
-node_modules
-test-ledger
-.yarn
+*.pdb
+
+# IDEs
+.idea/
+.vscode/
+.zed/
+
+# OS
+.DS_Store
