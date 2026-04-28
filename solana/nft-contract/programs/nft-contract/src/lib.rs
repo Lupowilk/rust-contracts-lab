@@ -23,3 +23,8 @@ pub mod nft_contract {
         Ok(())
     }
 }
+
+#[derive(Accounts)]
+pub struct mintNft<'info> {
+    mint:
+}
