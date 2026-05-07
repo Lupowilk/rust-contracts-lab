@@ -1,5 +1,6 @@
 use anchor_lang::prelude::*;
-use anchor_spl::token::{self, Token, Mint, MintTo, FreezeAccount};
+use anchor_spl::token::{self, Token, Mint, MintTo, FreezeAccount, TokenAccount};
+use anchor_spl::associated_token::AssociatedToken;
 use mpl_token_metadata::instructions::{
     CreateMetadataAccountV3Cpi,
     CreateMetadataAccountV3CpiAccounts,
@@ -27,6 +28,9 @@ pub mod nft_contract {
 #[derive(Accounts)]
 pub struct MintNft<'info> {
 
+    #[account(mut)]
+    pub payer: Signer<'info>,
+
     #[account(
         init,
         payer = payer,
@@ -36,4 +40,15 @@ pub struct MintNft<'info> {
     )]
     pub mint: Account<'info, Mint>,
 
+    #[account(
+        init,
+        payer = payer,
+        associated_token::mint = mint,
+        associated_token::authority = payer,
+        associated_token::token_program = token_program,
+    )]
+    pub token_account: Account<'info, TokenAccount>,
+
+    #[account(mut)]
+    pub metadata: UncheckedAccount<'info>,
 }
