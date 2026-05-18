@@ -21,6 +21,16 @@ pub mod nft_contract {
         symbol: String,
         uri: String,
     ) -> Result<()> {
+        let cpi_ctx = CpiContext::new(
+            ctx.accounts.token_program.to_account_info(),
+            MintTo {
+                mint: ctx.accounts.mint.to_account_info(),
+                to: ctx.accounts.token_account.to_account_info(),
+                authority: ctx.accounts.payer.to_account_info(),
+            },
+        );
+        token::mint_to(cpi_ctx, 1)?;
+
         Ok(())
     }
 }
@@ -51,4 +61,14 @@ pub struct MintNft<'info> {
 
     #[account(mut)]
     pub metadata: UncheckedAccount<'info>,
+
+    pub token_program: Program<'info, Token>,
+
+    pub associated_token_program: Program<'info, AssociatedToken>,
+
+    pub system_program: Program<'info,System>,
+
+    /// CHECK: Metaplex will validate this account
+    pub token_metadata_program: UncheckedAccount<'info>,
+
 }
