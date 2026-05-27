@@ -36,24 +36,28 @@ A basic counter contract written using `cargo-stylus`. Written and tested locall
 ### Hello World (`solana/hello-world`)
 Minimal Anchor program that logs a message on-chain.
 
-Program ID: `6wmDpCS3xyi6cxP22W4jjcSaNHBBJ5NAtECRYy8yaQGU`
-Deployed on devnet.
+Program ID: `6wmDpCS3xyi6cxP22W4jjcSaNHBBJ5NAtECRYy8yaQGU` — devnet
 
 ### Token Contract (`solana/token-contract`)
 Anchor program implementing SPL token minting.
 - `create_mint` — creates a new SPL Mint account
 - `mint_tokens` — mints tokens into a Token account
 
-Program ID: `7XF9upHxdV5iVWehmVaAsPzzDwyrozdtgpEFFHbBtDTj`
-Deployed on devnet. Tokens minted and verified on-chain.
+Program ID: `7XF9upHxdV5iVWehmVaAsPzzDwyrozdtgpEFFHbBtDTj` — devnet. Tokens minted and verified on-chain.
 
-**Key concepts covered:**
-- Solana accounts model vs Ethereum and Cardano
-- Programs vs contracts
+### NFT Contract (`solana/nft-contract`)
+Anchor program minting a Solana NFT using SPL Token and Metaplex.
+- `mint_nft` — creates mint, token account, metadata and freezes supply at 1
+
+Program ID: `CtVesYJKLZQMhVShNtLkNcqVgMQotbmmb1qvaaGf3AEA` — devnet. NFT minted with metadata verified on-chain.
+
+**Key concepts covered across Solana:**
+- Accounts model vs Ethereum and Cardano
 - CPI (Cross Program Invocation)
 - Anchor macros — `#[program]`, `#[derive(Accounts)]`, `#[account]`
-- SPL Token Program
-- Rust lifetimes and generics in practice
+- SPL Token Program and Associated Token Accounts
+- Metaplex Token Metadata Program
+- Rust lifetimes, generics, and wrapper types in practice
 
 **Deploy:**
 ```bash
